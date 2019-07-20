@@ -1,16 +1,24 @@
+// ==================== EXTERNAL IMPORTS ==================== //
+
 const express = require('express');
 const bcrypt = require('bcrypt');
 
+// ==================== INTERNAL IMPORTS ==================== //
+
 const { db, token } = require('../providers/database');
 const handleError = require('../providers/handle-error');
+
+// ==================== GLOBAL VARIABLES ==================== //
 
 const app = express();
 
 const Users = db.ref(`${token}/users`);
 
+// ==================== FUNCTIONS ==================== //
+
 const canAccess = (req, res) => new Promise(async (resolve, reject) => {
-  if(app.get('env') !== 'production') resolve(true);
-  // TODO: remove this ^^ after development
+  if (app.get('env') !== 'production') resolve(true);
+  // TODO: remove this line ^^ after development
   try {
     // Only the user and admin can see user data 
     const user = await Users.child(req.session.userID).once('value');
@@ -28,7 +36,10 @@ const canAccess = (req, res) => new Promise(async (resolve, reject) => {
   }
 });
 
-// create
+// ==================== ROUTES ==================== //
+
+// -------------------- REGISTER -------------------- //
+
 app.post('/', async (req, res) => {
   if (
     !req.body.username
@@ -71,7 +82,8 @@ app.post('/', async (req, res) => {
   }
 });
 
-// login
+// -------------------- LOGIN -------------------- //
+
 app.post('/login', async (req, res) => {
   if (!req.body.username || !req.body.password) {
     handleError(null, res, 'missing-data');
@@ -103,6 +115,8 @@ app.post('/login', async (req, res) => {
   }
 });
 
+// -------------------- ACCESS CONTROL -------------------- //
+
 app.use((req, res, next) => {
   if (!req.session.userID && app.get('env') === 'production') {
     handleError(null, res, 'unauthenticated');
@@ -112,9 +126,12 @@ app.use((req, res, next) => {
 });
 // All actions bellow need a session token
 
+// -------------------- CONTACTS -------------------- //
+
 app.use('/contact', require('./contact')(Users, canAccess, handleError));
 
-// list
+// -------------------- LIST USERS -------------------- //
+
 app.get('/', async (req, res) => {
   // Only admin can list all users
   try {
@@ -130,7 +147,8 @@ app.get('/', async (req, res) => {
   }
 });
 
-// detail
+// -------------------- DETAIL USER -------------------- //
+
 app.get('/:id', async (req, res) => {
   const access = await canAccess(req, res);
   if (!access) return;
@@ -143,8 +161,8 @@ app.get('/:id', async (req, res) => {
   }
 });
 
+// -------------------- EDIT USER -------------------- //
 
-// update
 app.patch('/:id', async (req, res) => {
   const access = await canAccess(req, res);
   if (!access) return;
@@ -162,7 +180,8 @@ app.patch('/:id', async (req, res) => {
   }
 });
 
-// delete
+// -------------------- DELETE USER -------------------- //
+
 app.delete('/:id', async (req, res) => {
   const access = await canAccess(req, res);
   if (!access) return;
@@ -175,4 +194,8 @@ app.delete('/:id', async (req, res) => {
   }
 });
 
+// ==================== EXPORT ==================== //
+
 module.exports = app;
+
+// ================================================ //
