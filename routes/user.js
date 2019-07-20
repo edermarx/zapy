@@ -50,11 +50,34 @@ app.post('/', async (req, res) => {
     });
 
     req.session.userID = data.key;
-    console.log(req.session.userID);
     res.send('ok');
   } catch (err) {
     handleError(err, res);
   }
+});
+
+// login
+app.post('/login', async (req, res) => {
+  const users = await Users.orderByChild('username')
+    .equalTo(req.body.username)
+    .once('value');
+
+  if (!users.val()) {
+    handleError(null, res, 'username-invalid');
+    return;
+  }
+
+  const user = Object.values(users.val())[0]; // get first property of the object
+  
+  const match = await bcrypt.compare(req.body.password, user.password);
+
+  if(match){
+    req.session.userID = Object.keys(users.val())[0];
+    res.send('ok');
+    return;
+  }
+
+  handleError(null, res, 'wrong-password');
 });
 
 // All actions bellow need a session token
@@ -113,7 +136,7 @@ app.patch('/:id', async (req, res) => {
 app.delete('/:id', async (req, res) => {
   const access = await canAccess(req, res);
   if (!access) return;
-  
+
   try {
     await Users.child(req.params.id).remove();
     res.send('ok');
