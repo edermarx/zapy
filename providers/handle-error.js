@@ -5,7 +5,7 @@ module.exports = (err, res, type) => {
     'missing-data': 400,
     'user-already-exists': 403,
     'passwords-dont-match': 403,
-    'username-invalid': 403,
+    'user-not-found': 403,
     'wrong-password': 403,
   };
 

@@ -9,10 +9,16 @@ const app = express();
 const Users = db.ref(`${token}/users`);
 
 const canAccess = (req, res) => new Promise(async (resolve, reject) => {
+  if(app.get('env') !== 'production') resolve(true);
+  // TODO: remove this ^^ after development
   try {
     // Only the user and admin can see user data 
     const user = await Users.child(req.session.userID).once('value');
-    if (req.params.id !== req.session.userID && !user.val().admin) {
+    if (
+      req.params.id !== req.session.userID
+      && !user.val().admin
+      && app.get('env') === 'production'
+    ) {
       handleError(null, res, 'access-denied');
       resolve(false);
     }
@@ -77,11 +83,11 @@ app.post('/login', async (req, res) => {
       .once('value');
 
     if (!users.val()) {
-      handleError(null, res, 'username-invalid');
+      handleError(null, res, 'user-not-found');
       return;
     }
 
-    const user = Object.values(users.val())[0]; // get first property of the object
+    const user = Object.values(users.val())[0]; // get first object of the object
 
     const match = await bcrypt.compare(req.body.password, user.password);
 
@@ -97,18 +103,19 @@ app.post('/login', async (req, res) => {
   }
 });
 
-// All actions bellow need a session token
 app.use((req, res, next) => {
-  if (!req.session.userID) {
+  if (!req.session.userID && app.get('env') === 'production') {
     handleError(null, res, 'unauthenticated');
     return;
   }
   next();
 });
+// All actions bellow need a session token
+
+app.use('/contact', require('./contact')(Users, canAccess, handleError));
 
 // list
 app.get('/', async (req, res) => {
-  console.log(req.session);
   // Only admin can list all users
   try {
     const user = await Users.child(req.session.userID).once('value');
