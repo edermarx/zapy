@@ -8,29 +8,6 @@ const app = express();
 
 const Users = db.ref(`${token}/users`);
 
-// list
-// TODO: check if user is admin
-app.get('/', async (req, res) => {
-  console.log(req.session.username);
-  try {
-    const users = await Users.once('value');
-    res.send(users.val());
-  } catch (err) {
-    handleError(err, res);
-  }
-});
-
-// detail
-app.get('/:id', (req, res) => {
-  // TODO: return if it's not the user
-  try {
-    const user = Users.ref(req.params.id).once('value');
-    res.send(user.val());
-  } catch (err) {
-    handleError(err, res);
-  }
-});
-
 // create
 app.post('/', async (req, res) => {
   try {
@@ -50,19 +27,55 @@ app.post('/', async (req, res) => {
     
     const hash = await bcrypt.hash(req.body.password, 10);
     
-    await Users.push({
+    const data = await Users.push({
       username: req.body.username,
       password: hash,
       alias: req.body.alias,
       timestamp: new Date().getTime(),
     });
 
-    req.session.user = req.body.username;
+    req.session.userID = data.key;
+    console.log(req.session.userID);
     res.send('ok');
   } catch (err) {
     handleError(err, res);
   }
 });
+
+// All actions bellow need a session token
+app.use((req, res, next) => {
+  if(!req.session.userID) {
+    res.redirect('/cadastro');
+    return;
+  }
+  next();
+});
+
+// list
+// TODO: check if user is admin
+app.get('/', async (req, res) => {
+  try {
+    const users = await Users.once('value');
+    res.send(users);
+  } catch (err) {
+    handleError(err, res);
+  }
+});
+
+// detail
+app.get('/:id', async (req, res) => {
+  if(req.params.id !== req.session.userID){
+    handleError(null, res, 'access-denied');
+    return;
+  }
+  try {
+    const user = await Users.child(req.params.id).once('value');
+    res.send(user);
+  } catch (err) {
+    handleError(err, res);
+  }
+});
+
 
 // update
 app.patch('/:id', async (req, res) => {

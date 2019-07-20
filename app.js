@@ -3,7 +3,7 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
-const cookieSession = require('cookie-session');
+const expressSession = require('express-session');
 require('dotenv').config();
 
 // ==================== INTERNAL IMPORTS ==================== //
@@ -37,11 +37,14 @@ app.use('/views', express.static(path.join(__dirname, 'views')));
 
 if (app.get('env') === 'production') {
   app.set('trust proxy', 1); // trust first proxy
+  expressSession.cookie.secure = true // serve secure cookies
 }
 
-app.use(cookieSession({
-  name: 'session',
-  keys: ['key1', 'key2']
+app.use(expressSession({
+  secret: process.env.SESSION_TOKEN,
+  resave: false,
+  saveUninitialized: true,
+  cookie: {}
 }));
 
 // ==================== FUNCTIONS ==================== //
