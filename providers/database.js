@@ -1,7 +1,8 @@
 const firebase = require('firebase');
+require('dotenv').config();
 
 firebase.initializeApp({
-  apiKey: "AIzaSyBoiW68byteYX26Q6M_z2A_Gx_edIIS63Y",
+  apiKey: process.env.FIREBASE_KEY,
   authDomain: "zapy-ea861.firebaseapp.com",
   databaseURL: "https://zapy-ea861.firebaseio.com",
   projectId: "zapy-ea861",
@@ -12,5 +13,5 @@ firebase.initializeApp({
 
 module.exports = {
   db: firebase.database(),
-  token: '016d65cdd5a9ba22ad76a5f304ad1cfa6f8e89e4640aa2e4b35c7ff588d2d3ba',
+  token: process.env.FIREBASE_TOKEN,
 };

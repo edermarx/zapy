@@ -10,6 +10,7 @@
   "author": "Eder Marques <edermarques96@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "dotenv": "^8.0.0",
     "ejs": "^2.6.2",
     "express": "^4.17.1",
     "firebase": "^6.3.1"
