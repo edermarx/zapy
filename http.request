@@ -1,0 +1,9 @@
+POST http://localhost:3000/user HTTP/1.1
+content-type: application/json
+
+{
+    "username": "edefewew23r",
+    "password": "1233",
+    "password2": "1233",
+    "alias": "uau"
+}

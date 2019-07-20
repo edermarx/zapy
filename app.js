@@ -3,6 +3,8 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const cookieSession = require('cookie-session');
+require('dotenv').config();
 
 // ==================== INTERNAL IMPORTS ==================== //
 
@@ -31,6 +33,17 @@ app.use(bodyParser.json());
 // serving static files
 app.use('/views', express.static(path.join(__dirname, 'views')));
 
+// ==================== USER SESSION ==================== //
+
+if (app.get('env') === 'production') {
+  app.set('trust proxy', 1); // trust first proxy
+}
+
+app.use(cookieSession({
+  name: 'session',
+  keys: ['key1', 'key2']
+}));
+
 // ==================== FUNCTIONS ==================== //
 
 // returns the full path of the passed view
@@ -38,7 +51,7 @@ const getViewPath = view => path.join(__dirname, `views/${view}/${view}.ejs`);
 
 // ==================== ROUTES ==================== //
 
-app.use('/user', require('./routes/user'));
+app.use('/api/user', require('./routes/user'));
 
 // ==================== VIEWS ==================== //
 

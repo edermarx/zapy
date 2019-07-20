@@ -4,14 +4,17 @@
     <title>Cadastro</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="css/style.css" rel="stylesheet">
+    <link href="/views/register/register.css" rel="stylesheet">
   </head>
   <body>
     <form id="register-form">
       <input type="text" name="username" placeholder="Usuário" required>
+      <input type="text" name="alias" placeholder="Apelido" required>
       <input type="password" name="password" placeholder="Senha" required>
       <input type="password" name="password2" placeholder="Confirmação de senha" required>
       <input type="submit" value="Registrar">
     </form>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+    <script src="/views/register/register.js"></script>
   </body>
 </html>
