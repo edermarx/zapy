@@ -24,6 +24,15 @@ const canAccess = (req, res) => new Promise(async (resolve, reject) => {
 
 // create
 app.post('/', async (req, res) => {
+  if (
+    !req.body.username
+    || !req.body.password
+    || !req.body.password2
+    || !req.body.alias
+  ) {
+    handleError(null, res, 'missing-data');
+    return;
+  }
   try {
     const userCheck = await Users.orderByChild('username')
       .equalTo(req.body.username)
@@ -58,32 +67,40 @@ app.post('/', async (req, res) => {
 
 // login
 app.post('/login', async (req, res) => {
-  const users = await Users.orderByChild('username')
-    .equalTo(req.body.username)
-    .once('value');
-
-  if (!users.val()) {
-    handleError(null, res, 'username-invalid');
+  if (!req.body.username || !req.body.password) {
+    handleError(null, res, 'missing-data');
     return;
   }
+  try {
+    const users = await Users.orderByChild('username')
+      .equalTo(req.body.username)
+      .once('value');
 
-  const user = Object.values(users.val())[0]; // get first property of the object
-  
-  const match = await bcrypt.compare(req.body.password, user.password);
+    if (!users.val()) {
+      handleError(null, res, 'username-invalid');
+      return;
+    }
 
-  if(match){
-    req.session.userID = Object.keys(users.val())[0];
-    res.send('ok');
-    return;
+    const user = Object.values(users.val())[0]; // get first property of the object
+
+    const match = await bcrypt.compare(req.body.password, user.password);
+
+    if (match) {
+      req.session.userID = Object.keys(users.val())[0];
+      res.send('ok');
+      return;
+    }
+
+    handleError(null, res, 'wrong-password');
+  } catch (err) {
+    handleError(err, res);
   }
-
-  handleError(null, res, 'wrong-password');
 });
 
 // All actions bellow need a session token
 app.use((req, res, next) => {
   if (!req.session.userID) {
-    res.redirect('/cadastro');
+    handleError(null, res, 'unauthenticated');
     return;
   }
   next();
@@ -91,13 +108,14 @@ app.use((req, res, next) => {
 
 // list
 app.get('/', async (req, res) => {
+  console.log(req.session);
   // Only admin can list all users
-  const user = await Users.child(req.session.userID).once('value');
-  if (!user.val().admin) {
-    handleError(null, res, 'access-denied');
-    return;
-  }
   try {
+    const user = await Users.child(req.session.userID).once('value');
+    if (!user.val().admin) {
+      handleError(null, res, 'access-denied');
+      return;
+    }
     const users = await Users.once('value');
     res.send(users);
   } catch (err) {
@@ -123,6 +141,11 @@ app.get('/:id', async (req, res) => {
 app.patch('/:id', async (req, res) => {
   const access = await canAccess(req, res);
   if (!access) return;
+
+  if (!req.body) {
+    handleError(null, res, 'missing-data');
+    return;
+  }
 
   try {
     await Users.child(req.params.id).update(req.body);
