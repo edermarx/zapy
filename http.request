@@ -1,6 +1,6 @@
-DELETE http://localhost:3000/home HTTP/1.1
+POST http://localhost:3000/api/message/LUxrRlcxRDVudnZpd0hsZTdaemkoKi0qKS1Ma0Z5R3ZaZWpfSmhTa21BNGYt HTTP/1.1
 content-type: application/json
 
 {
-    "contactId": "-LkGBnwSRquOQTAdU5YW"
+    "message": "tudo bem?"
 }

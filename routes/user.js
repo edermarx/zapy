@@ -20,7 +20,7 @@ const canAccess = (req, res) => new Promise(async (resolve, reject) => {
   if (process.env.ENV_MODE !== 'production') resolve(true);
   // TODO: remove this line ^^ after development
   try {
-    // Only the user and admin can see user data 
+    // Only the user and admin can see user data
     const user = await Users.child(req.session.userID).once('value');
     if (
       req.params.id !== req.session.userID

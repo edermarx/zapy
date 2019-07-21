@@ -36,7 +36,7 @@ module.exports = (Users, canAccess) => {
         .once('value');
 
       if (!users.val()) {
-        handleError(null, res, 'user-not-found');
+        handleErrors(null, res, 'user-not-found');
         return;
       }
 
@@ -44,7 +44,7 @@ module.exports = (Users, canAccess) => {
         username: req.body.contact,
         userID: Object.keys(users.val())[0],
       });
-      
+
       res.send('ok');
     } catch (err) {
       handleErrors(err, res);

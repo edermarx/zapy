@@ -1,6 +1,5 @@
 const express = require('express');
 const atob = require('atob');
-const btoa = require('btoa');
 
 const app = express();
 
