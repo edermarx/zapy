@@ -41,7 +41,7 @@ const sess = {
   secret: process.env.SESSION_TOKEN,
   resave: false,
   saveUninitialized: true,
-  cookie: {}
+  cookie: {},
 };
 
 // if (process.env.ENV_MODE === 'production') {
@@ -73,7 +73,7 @@ app.use('/api/user', require('./routes/user'));
 
 app.use((req, res, next) => {
   if (!req.session.userID && process.env.ENV_MODE !== 'development') {
-    if(req.method === 'GET'){
+    if (req.method === 'GET') {
       res.redirect('/login');
       return;
     }

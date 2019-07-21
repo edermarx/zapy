@@ -7,6 +7,25 @@
     <link href="/views/home/home.css" rel="stylesheet">
   </head>
   <body>
+    <div id="profile"></div>
+    <hr>
     <div id="contacts"></div>
+    <hr>
+    <div>
+      <form id="add-contact-form">
+        <input type="text" name="contact">
+        <input type="submit" value="Add">
+      </form>
+    </div>
+    <hr>
+    <div id="messages"></div>
+    <div>
+      <form id="send-message-form">
+        <input type="text" name="message">
+        <input type="submit" value="Enviar">
+      </form>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+    <script src="/views/home/home.js"></script>
   </body>
 </html>

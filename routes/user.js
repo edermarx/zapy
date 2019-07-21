@@ -76,7 +76,7 @@ app.post('/', async (req, res) => {
     });
 
     req.session.userID = data.key;
-    res.send('ok');
+    res.send(req.session.userID);
   } catch (err) {
     handleError(err, res);
   }
@@ -104,8 +104,8 @@ app.post('/login', async (req, res) => {
     const match = await bcrypt.compare(req.body.password, user.password);
 
     if (match) {
-      req.session.userID = Object.keys(users.val())[0];
-      res.send('ok');
+      [req.session.userID] = Object.keys(users.val());
+      res.send(req.session.userID);
       return;
     }
 

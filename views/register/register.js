@@ -10,5 +10,8 @@ gel('#register-form').addEventListener('submit', async (e) => {
     alias: gel('input[name=alias]').value,
   });
 
-  if (response.data === 'ok') window.location.replace('/');
+  if (response.status === 200) {
+    window.localStorage.setItem('userID', response.data);
+    window.location.replace('/');
+  }
 });
