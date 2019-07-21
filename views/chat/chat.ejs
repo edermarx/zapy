@@ -1,12 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title></title>
+    <title>Chat</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="css/style.css" rel="stylesheet">
+    <link href="/views/chat/chat.css" rel="stylesheet">
   </head>
   <body>
-  
+    <div id="messages"></div>
+    <div>
+      <form>
+        <input type="text" name="message" placeholder="Digite sua mensagem...">
+        <input type="submit" value="Enviar">
+      </form>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+    <script src="/views/chat/chat.js"></script>
   </body>
 </html>

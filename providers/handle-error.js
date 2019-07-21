@@ -3,10 +3,10 @@ module.exports = (err, res, type) => {
     'access-denied': 403,
     'unauthenticated': 401,
     'missing-data': 400,
-    'user-already-exists': 403,
-    'passwords-dont-match': 403,
-    'user-not-found': 403,
-    'wrong-password': 403,
+    'user-already-exists': 400,
+    'passwords-dont-match': 400,
+    'user-not-found': 400,
+    'wrong-password': 400,
   };
 
   if (!err) err = type;

@@ -1,7 +1,6 @@
-POST http://localhost:3000/api/user/login HTTP/1.1
+DELETE http://localhost:3000/home HTTP/1.1
 content-type: application/json
 
 {
-    "username": "eder",
-    "password": "jkl"
+    "contactId": "-LkGBnwSRquOQTAdU5YW"
 }

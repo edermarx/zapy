@@ -8,6 +8,8 @@ require('dotenv').config();
 
 // ==================== INTERNAL IMPORTS ==================== //
 
+const handleError = require('./providers/handle-error');
+
 // ==================== GLOBAL VARIABLES ==================== //
 
 const app = express();
@@ -35,32 +37,26 @@ app.use('/views', express.static(path.join(__dirname, 'views')));
 
 // ==================== USER SESSION ==================== //
 
-if (app.get('env') === 'production') {
-  app.set('trust proxy', 1); // trust first proxy
-  expressSession.cookie.secure = true // serve secure cookies
-}
-
-app.use(expressSession({
+const sess = {
   secret: process.env.SESSION_TOKEN,
   resave: false,
   saveUninitialized: true,
   cookie: {}
-}));
+};
+
+if (process.env.ENV_MODE === 'production') {
+  app.set('trust proxy', 1); // trust first proxy
+  sess.cookie.secure = true // serve secure cookies
+}
+
+app.use(expressSession(sess));
 
 // ==================== FUNCTIONS ==================== //
 
 // returns the full path of the passed view
 const getViewPath = view => path.join(__dirname, `views/${view}/${view}.ejs`);
 
-// ==================== ROUTES ==================== //
-
-app.use('/api/user', require('./routes/user'));
-
-// ==================== VIEWS ==================== //
-
-app.get('/', (req, res) => {
-  res.render(getViewPath('home'));
-});
+// ==================== VIEWS AND ROUTES ==================== //
 
 app.get('/cadastro', (req, res) => {
   res.render(getViewPath('register'));
@@ -68,6 +64,31 @@ app.get('/cadastro', (req, res) => {
 
 app.get('/login', (req, res) => {
   res.render(getViewPath('login'));
+});
+
+app.use('/api/user', require('./routes/user'));
+
+// -------------------- ACCESS CONTROL -------------------- //
+
+app.use((req, res, next) => {
+  if (!req.session.userID && process.env.ENV_MODE !== 'development') {
+    if(req.method === 'GET'){
+      res.redirect('/login');
+      return;
+    }
+    handleError(null, res, 'unauthenticated');
+    return;
+  }
+  next();
+});
+
+// ------------------------------------------------------- //
+
+
+app.use('/api/message', require('./routes/message'));
+
+app.get('/', (req, res) => {
+  res.render(getViewPath('home'));
 });
 
 app.get('/chat', (req, res) => {

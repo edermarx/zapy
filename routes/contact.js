@@ -1,10 +1,17 @@
 module.exports = (Users, canAccess) => {
+  // ==================== EXTERNAL IMPORTS ==================== //
+
   const express = require('express');
   const app = express();
 
+  // ==================== INTERNAL IMPORTS ==================== //
+
   const handleErrors = require('../providers/handle-error');
 
-  // list
+  // ==================== ROUTES ==================== //
+
+  // -------------------- LIST CONTACTS -------------------- //
+
   app.get('/:id', async (req, res) => {
     try {
       const access = await canAccess(req, res);
@@ -17,7 +24,8 @@ module.exports = (Users, canAccess) => {
     }
   });
 
-  // add
+  // -------------------- ADD CONTACT -------------------- //
+
   app.post('/:id', async (req, res) => {
     try {
       const access = await canAccess(req, res);
@@ -38,6 +46,8 @@ module.exports = (Users, canAccess) => {
       handleErrors(err, res);
     }
   });
+
+  // -------------------- DELETE CONTACT -------------------- //
 
   app.delete('/:id', async (req, res) => {
     const access = await canAccess(req, res);

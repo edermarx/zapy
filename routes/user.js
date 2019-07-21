@@ -17,7 +17,7 @@ const Users = db.ref(`${token}/users`);
 // ==================== FUNCTIONS ==================== //
 
 const canAccess = (req, res) => new Promise(async (resolve, reject) => {
-  if (app.get('env') !== 'production') resolve(true);
+  if (process.env.ENV_MODE !== 'production') resolve(true);
   // TODO: remove this line ^^ after development
   try {
     // Only the user and admin can see user data 
@@ -25,7 +25,7 @@ const canAccess = (req, res) => new Promise(async (resolve, reject) => {
     if (
       req.params.id !== req.session.userID
       && !user.val().admin
-      && app.get('env') === 'production'
+      && process.env.ENV_MODE === 'production'
     ) {
       handleError(null, res, 'access-denied');
       resolve(false);
@@ -118,13 +118,13 @@ app.post('/login', async (req, res) => {
 // -------------------- ACCESS CONTROL -------------------- //
 
 app.use((req, res, next) => {
-  if (!req.session.userID && app.get('env') === 'production') {
+  if (!req.session.userID && process.env.ENV_MODE !== 'development') {
     handleError(null, res, 'unauthenticated');
     return;
   }
   next();
 });
-// All actions bellow need a session token
+// All routes bellow need a session token
 
 // -------------------- CONTACTS -------------------- //
 
