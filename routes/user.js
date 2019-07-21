@@ -152,10 +152,36 @@ app.get('/', async (req, res) => {
 app.get('/:id', async (req, res) => {
   const access = await canAccess(req, res);
   if (!access) return;
-
+  
   try {
     const user = await Users.child(req.params.id).once('value');
     res.send(user);
+  } catch (err) {
+    handleError(err, res);
+  }
+});
+
+// -------------------- HAS MESSAGE -------------------- //
+
+app.get('/has-message/:id', async (req, res) => {
+  const access = await canAccess(req, res);
+  if (!access) return;
+
+  try {
+    const hasMessage = (await Users.child(req.params.id).child('hasMessage').once('value')).val();
+    res.send(hasMessage);
+  } catch (err) {
+    handleError(err, res);
+  }
+});
+
+app.delete('/has-message/:id/:hasMessageID', async (req, res) => {
+  const access = await canAccess(req, res);
+  if (!access) return;
+
+  try {
+    await Users.child(req.params.id).child('hasMessage').child(req.params.hasMessageID).remove();
+    res.send('ok');
   } catch (err) {
     handleError(err, res);
   }

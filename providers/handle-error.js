@@ -9,7 +9,6 @@ module.exports = (err, res, type) => {
     'wrong-password': 400,
   };
 
-  if (!err) err = type;
-  console.log(err);
-  res.status(errorCodes[type] || 500).send(err);
+  console.log(err || type);
+  res.status(errorCodes[type] || 500).send(err || type);
 };

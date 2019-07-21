@@ -63,4 +63,22 @@ gel('#send-message-form').addEventListener('submit', async (e) => {
   }
 });
 
+setInterval(async () => {
+  const response = await axios.get(`/api/user/has-message/${userID}`);
+  const chatID = window.localStorage.getItem('chatID');
+  const hasMessageIDs = [];
+
+  Object.entries(response.data).forEach(([hasMessageID, hasChatID]) => {
+    if (hasChatID === chatID) hasMessageIDs.push(hasMessageID);
+  });
+
+  if (!hasMessageIDs.length) return;
+
+  hasMessageIDs.forEach(async (hasMessageID) => {
+    await axios.delete(`/api/user/has-message/${userID}/${hasMessageID}`);
+  });
+
+  renderMessages(chatID);
+}, 1000);
+
 renderContacts();

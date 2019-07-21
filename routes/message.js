@@ -56,6 +56,12 @@ app.post('/:chatID', async (req, res) => {
       content: req.body.message,
       timestamp: new Date().getTime(),
     });
+
+    const conversation = atob(req.params.chatID).split('(*-*)');
+    conversation.forEach((userInvolved) => {
+      Users.child(userInvolved).child('hasMessage').push(req.params.chatID);
+    });
+
     res.send('ok');
   } catch (err) {
     handleError(err, res);
