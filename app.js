@@ -44,10 +44,11 @@ const sess = {
   cookie: {}
 };
 
-if (process.env.ENV_MODE === 'production') {
-  app.set('trust proxy', 1); // trust first proxy
-  sess.cookie.secure = true // serve secure cookies
-}
+// if (process.env.ENV_MODE === 'production') {
+//   app.set('trust proxy', 1); // trust first proxy
+//   sess.cookie.secure = true // serve secure cookies
+// }
+// TODO: uncomment this ^^ after development
 
 app.use(expressSession(sess));
 

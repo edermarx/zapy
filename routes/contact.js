@@ -40,7 +40,11 @@ module.exports = (Users, canAccess) => {
         return;
       }
 
-      await Users.child(req.params.id).child('contacts').push(Object.keys(users.val())[0]);
+      await Users.child(req.params.id).child('contacts').push({
+        username: req.body.contact,
+        userID: Object.keys(users.val())[0],
+      });
+      
       res.send('ok');
     } catch (err) {
       handleErrors(err, res);
