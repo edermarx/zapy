@@ -20,16 +20,20 @@ const renderMessages = async (chatID) => {
 };
 
 const renderContacts = async () => {
-  const contacts = (await axios.get(`/api/user/contact/${userID}`)).data;
-  const contactsDiv = gel('#contacts');
+  try {
+    const contacts = (await axios.get(`/api/user/contact/${userID}`)).data;
+    const contactsDiv = gel('#contacts');
 
-  contactsDiv.innerHTML = '';
+    contactsDiv.innerHTML = '';
 
-  Object.values(contacts).forEach((contact) => {
-    contactsDiv.innerHTML += `
+    Object.values(contacts).forEach((contact) => {
+      contactsDiv.innerHTML += `
       <p class="contact" onclick="renderMessages('${btoa(contact.userID < userID ? `${contact.userID}(*-*)${userID}` : `${userID}(*-*)${contact.userID}`)}')">${contact.username}</p>
     `;
-  });
+    });
+  } catch (err) {
+    console.log(err.response);
+  }
 };
 
 gel('#add-contact-form').addEventListener('submit', async (e) => {
@@ -43,7 +47,7 @@ gel('#add-contact-form').addEventListener('submit', async (e) => {
     gel('input[name=contact]').value = '';
     renderContacts();
   } catch (err) {
-    console.log(err);
+    console.log(err.response);
   }
 });
 
@@ -59,26 +63,30 @@ gel('#send-message-form').addEventListener('submit', async (e) => {
     gel('input[name=message]').value = '';
     renderMessages(chatID);
   } catch (err) {
-    console.log(err);
+    console.log(err.response);
   }
 });
 
 setInterval(async () => {
-  const response = await axios.get(`/api/user/has-message/${userID}`);
-  const chatID = window.localStorage.getItem('chatID');
-  const hasMessageIDs = [];
+  try {
+    const response = await axios.get(`/api/user/has-message/${userID}`);
+    const chatID = window.localStorage.getItem('chatID');
+    const hasMessageIDs = [];
 
-  Object.entries(response.data).forEach(([hasMessageID, hasChatID]) => {
-    if (hasChatID === chatID) hasMessageIDs.push(hasMessageID);
-  });
+    Object.entries(response.data).forEach(([hasMessageID, hasChatID]) => {
+      if (hasChatID === chatID) hasMessageIDs.push(hasMessageID);
+    });
 
-  if (!hasMessageIDs.length) return;
+    if (!hasMessageIDs.length) return;
 
-  hasMessageIDs.forEach(async (hasMessageID) => {
-    await axios.delete(`/api/user/has-message/${userID}/${hasMessageID}`);
-  });
+    hasMessageIDs.forEach(async (hasMessageID) => {
+      await axios.delete(`/api/user/has-message/${userID}/${hasMessageID}`);
+    });
 
-  renderMessages(chatID);
+    renderMessages(chatID);
+  } catch (err) {
+    console.log(err.response);
+  }
 }, 1000);
 
 renderContacts();

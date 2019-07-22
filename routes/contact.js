@@ -27,7 +27,7 @@ module.exports = (Users, canAccess) => {
   // -------------------- ADD CONTACT -------------------- //
 
   app.post('/:id', async (req, res) => {
-    // TODO: check if contact id added already
+    // TODO: check if contact is already added
     // TODO: add yourself as contact of the target
     try {
       const access = await canAccess(req, res);
@@ -39,6 +39,17 @@ module.exports = (Users, canAccess) => {
 
       if (!users.val()) {
         handleErrors(null, res, 'user-not-found');
+        return;
+      }
+
+      const checkUser = await Users.child(req.params.id)
+        .child('contacts')
+        .orderByChild('username')
+        .equalTo(req.body.contact)
+        .once('value');
+
+      if (checkUser.val()) {
+        handleErrors(null, res, 'contact-duplicata');
         return;
       }
 
