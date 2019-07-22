@@ -73,6 +73,15 @@ setInterval(async () => {
     const chatID = window.localStorage.getItem('chatID');
     const hasMessageIDs = [];
 
+    const contactsNotSeen = Object.values(response.data)
+      .map(NotificationChatID => atob(NotificationChatID))
+      .join('(*-*)').split('(*-*)')
+      .filter(id => id !== userID);
+
+    console.log(contactsNotSeen);
+
+    return;
+
     Object.entries(response.data).forEach(([hasMessageID, hasChatID]) => {
       if (hasChatID === chatID) hasMessageIDs.push(hasMessageID);
     });
@@ -86,7 +95,8 @@ setInterval(async () => {
     renderMessages(chatID);
   } catch (err) {
     console.log(err.response);
+    if (err.response.data === 'unauthenticated') window.location.replace('/login');
   }
-}, 1000);
+}, 200);
 
 renderContacts();
