@@ -86,6 +86,7 @@ setInterval(async () => {
     renderMessages(chatID);
   } catch (err) {
     console.log(err.response);
+    if(err.response.data === 'unauthenticated') window.location.replace('/login');
   }
 }, 200);
 
