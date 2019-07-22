@@ -27,8 +27,6 @@ module.exports = (Users, canAccess) => {
   // -------------------- ADD CONTACT -------------------- //
 
   app.post('/:id', async (req, res) => {
-    // TODO: check if contact is already added
-    // TODO: add yourself as contact of the target
     try {
       const access = await canAccess(req, res);
       if (!access) return;

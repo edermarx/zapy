@@ -87,6 +87,6 @@ setInterval(async () => {
   } catch (err) {
     console.log(err.response);
   }
-}, 1000);
+}, 200);
 
 renderContacts();

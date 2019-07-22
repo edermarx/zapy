@@ -62,6 +62,15 @@ app.post('/:chatID', async (req, res) => {
       Users.child(userInvolved).child('hasMessage').push(req.params.chatID);
     });
 
+    conversation.filter(userInvolved => userInvolved !== req.session.userID)
+      .forEach(async (otherUser) => {
+        const username = (await Users.child(req.session.userID).child('username').once('value')).val();
+        await Users.child(otherUser).child('contacts').push({
+          username,
+          userID: req.session.userID,
+        });
+      });
+
     res.send('ok');
   } catch (err) {
     handleError(err, res);
