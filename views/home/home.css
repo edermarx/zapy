@@ -1,0 +1,157 @@
+body, html {
+  margin: 0;
+}
+
+.users-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  width: 25%;
+  height: 100vh;
+  left: 0;
+  background-color: #777;
+}
+
+.users-container .user {
+  width: 100%;
+  height: 10%;
+  display: flex;
+  /* justify-content: space-around; */
+  align-items: center;
+  background-color: #666;
+}
+
+.users-container .user img {
+  width: 30px;
+  height: 30px;
+  margin: 0 40px;
+}
+
+.users-container .add-contact {
+  width: 100%;
+  background-color: #444;
+  text-align: center;
+}
+
+.users-container .add-contact h4 {
+  margin-bottom: 0;
+}
+
+.users-container .add-contact form {
+  display: flex;
+  align-items: center;
+}
+
+.users-container .add-contact input {
+  height: 20px;
+  border: none;
+  margin: 10px;
+  border-radius: 3px;
+  padding: 3px;
+}
+
+.users-container .add-contact .add-contact-submit {
+  border: none;
+  border-radius: 3px;
+  margin: 5px 0;
+  height: 20px;
+}
+
+.users-container .contacts {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #555;
+}
+
+.users-container .contacts .contact {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  cursor: pointer;
+}
+
+.users-container .contacts .contact:hover {
+  background-color: #444;
+}
+
+.users-container .contacts .contact img {
+  width: 30px;
+  height: 30px;
+  margin: 0 40px;
+}
+
+.msgs-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  width: 75%;
+  height: 100vh;
+  right: 0;
+  background-color: #888;
+}
+
+.msgs-container .header {
+  width: 100%;
+  height: 10%;
+  background-color: #555;
+}
+
+.msgs-container .header .contact {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  cursor: pointer;
+}
+
+.msgs-container .header .contact img { 
+  width: 30px;
+  height: 30px;
+  margin: 0 40px;
+}
+
+.msgs-container .msgs {
+  height: 80%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+.msgs-container .msgs .msg {
+  background-color: #666;
+  /* width: 40px; */
+  /* padding: 0; */
+  margin: 5px;
+  border-radius: 20px;
+}
+
+.msgs-container .msgs .msg p {
+  margin: 5px 20px 5px 5px;
+}
+
+.msgs-container .msgs-send {
+  width: 100%;
+  height: 10% !important;
+  background-color: #555;
+  padding: 10px 0 10px 0;
+}
+
+.msgs-container .msgs-send form {
+  height: 100%;
+}
+
+.msgs-container .msgs-send #new-message {
+  height: 20px;
+  width: 50%;
+  border: none;
+  margin: 10px;
+  border-radius: 3px;
+  padding: 3px;
+}
+
+.msgs-container .msgs-send .send-message {
+  border: none;
+  border-radius: 3px;
+  margin: 5px 0;
+  height: 20px;
+}

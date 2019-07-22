@@ -7,24 +7,35 @@
     <link href="/views/home/home.css" rel="stylesheet">
   </head>
   <body>
-    <div id="profile"></div>
-    <hr>
-    <div id="contacts"></div>
-    <hr>
-    <div>
-      <form id="add-contact-form">
-        <input type="text" name="contact">
-        <input type="submit" value="Add">
-      </form>
-    </div>
-    <hr>
-    <div id="messages"></div>
-    <div>
-      <form id="send-message-form">
-        <input type="text" name="message">
-        <input type="submit" value="Enviar">
-      </form>
-    </div>
+    <section class="users-container">
+      <div class="user" id="profile">
+        <img src="https://image.flaticon.com/icons/png/512/47/47774.png" alt="user-image">
+        <h4 class="username">Edgar</h4>
+      </div>
+      <div class="add-contact">
+        <h4>Adicionar Contato</h4>
+        <form id="add-contact-form">
+          <input type="text" name="contact" id="new-contact" placeholder="Contato">
+          <input type="submit" value="Adicionar" class="add-contact-submit">
+        </form>
+      </div>
+      <div id="contacts"></div>
+    </section>
+    <section class="msgs-container">
+      <div class="header">
+        <div class="contact">
+          <img src="https://image.flaticon.com/icons/png/512/47/47774.png" alt="contact-image">
+          <h4 class="contact-name">Eder</h4>
+        </div>
+      </div>
+      <div id="messages"></div>
+      <div class="msgs-send">
+        <form id="send-message-form">
+          <input type="text" name="message" id="new-message" placeholder="Escreva uma Mensagem">
+          <input type="submit" value="Enviar" class="send-message">
+        </form>
+      </div>
+    </section>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
     <script src="/views/home/home.js"></script>
   </body>

@@ -98,7 +98,7 @@ app.get('/chat', (req, res) => {
 
 // ==================== START SERVER ==================== //
 
-app.listen(process.env.PORT || 3000, () => {
+app.listen(process.env.PORT || 8000, () => {
   console.log('READY');
 });
 
