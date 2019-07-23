@@ -14,9 +14,14 @@ const renderMessages = async (chatID) => {
 
   Object.entries(messages).forEach(([key, message]) => {
     messagesDiv.innerHTML += `
-      <p class="message" message-id="${key}">${message.content}</p>
+    <div class="message ${message.sender === userID ? 'receiver' : 'sender'}" message-id="${key}" message-sender="${message.sender}">
+      <p class="message-content">${message.content}</p>
+    </div>  
     `;
   });
+
+  // ============================= //
+  messagesDiv.scrollTop = 10 ** 10;
 };
 
 const renderContacts = async () => {
@@ -28,12 +33,23 @@ const renderContacts = async () => {
 
     Object.values(contacts).forEach((contact) => {
       contactsDiv.innerHTML += `
-      <p class="contact" onclick="renderMessages('${btoa(contact.userID < userID ? `${contact.userID}(*-*)${userID}` : `${userID}(*-*)${contact.userID}`)}')">${contact.username}</p>
+      <div class="contact ${contact.username}" onclick="renderMessages('${btoa(contact.userID < userID ? `${contact.userID}(*-*)${userID}` : `${userID}(*-*)${contact.userID}`)}')">
+        <img src="https://image.flaticon.com/icons/png/512/47/47774.png" alt="contact-image">
+        <h4 class="username">${contact.username}</h4>
+      </div>
     `;
+    });
+    contactsDiv.addEventListener('click', (event) => {
+      gel('.current-contact-name').innerHTML = event.target.className.indexOf('contact') === -1 ? event.target.parentElement.querySelector('h4').innerHTML : event.target.querySelector('h4').innerHTML;
+      [...document.querySelectorAll('.contact')].forEach((contact) => {
+        contact.style.backgroundColor = '#555';
+      });
+      gel(`.${gel('.current-contact-name').innerHTML}`).style.backgroundColor = '#444';
     });
   } catch (err) {
     console.log(err.response);
   }
+  // ============================= //
 };
 
 gel('#add-contact-form').addEventListener('submit', async (e) => {
@@ -78,9 +94,7 @@ setInterval(async () => {
       .join('(*-*)').split('(*-*)')
       .filter(id => id !== userID);
 
-    console.log(contactsNotSeen);
-
-    return;
+    // console.log(contactsNotSeen);
 
     Object.entries(response.data).forEach(([hasMessageID, hasChatID]) => {
       if (hasChatID === chatID) hasMessageIDs.push(hasMessageID);
