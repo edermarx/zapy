@@ -14,9 +14,14 @@ const renderMessages = async (chatID) => {
 
   Object.entries(messages).forEach(([key, message]) => {
     messagesDiv.innerHTML += `
-    <div class="message ${message.sender === userID ? 'receiver' : 'sender'}" message-id="${key}" message-sender="${message.sender}">
-      <p class="message-content">${message.content}</p>
-    </div>  
+    <div class="message-container ${message.sender === userID ? 'receiver' : 'sender'}">
+      <div class="message" message-id="${key}" message-sender="${message.sender}">
+        <p class="message-content">${message.content}</p>
+      </div>
+      <svg height="10" width="60">
+        <polygon class="triangle" points="25,0 50,0 60,10" />
+      </svg>  
+    </div>
     `;
   });
 
@@ -34,7 +39,7 @@ const renderContacts = async () => {
     Object.values(contacts).forEach((contact) => {
       contactsDiv.innerHTML += `
       <div class="contact ${contact.username}" onclick="renderMessages('${btoa(contact.userID < userID ? `${contact.userID}(*-*)${userID}` : `${userID}(*-*)${contact.userID}`)}')">
-        <img src="https://image.flaticon.com/icons/png/512/47/47774.png" alt="contact-image">
+        <img src="https://cdn4.iconfinder.com/data/icons/universal-5/605/User-512.png" alt="contact-image">
         <h4 class="username">${contact.username}</h4>
       </div>
     `;
@@ -42,9 +47,9 @@ const renderContacts = async () => {
     contactsDiv.addEventListener('click', (event) => {
       gel('.current-contact-name').innerHTML = event.target.className.indexOf('contact') === -1 ? event.target.parentElement.querySelector('h4').innerHTML : event.target.querySelector('h4').innerHTML;
       [...document.querySelectorAll('.contact')].forEach((contact) => {
-        contact.style.backgroundColor = '#555';
+        contact.style.backgroundColor = '#FCD9C2';
       });
-      gel(`.${gel('.current-contact-name').innerHTML}`).style.backgroundColor = '#444';
+      gel(`.${gel('.current-contact-name').innerHTML}`).style.backgroundColor = '#edb88b';
     });
   } catch (err) {
     console.log(err.response);
@@ -67,9 +72,10 @@ gel('#add-contact-form').addEventListener('submit', async (e) => {
   }
 });
 
-gel('#send-message-form').addEventListener('submit', async (e) => {
+
+const sendMessage = async (e) => {
   try {
-    e.preventDefault();
+    if (e) e.preventDefault();
 
     const chatID = window.localStorage.getItem('chatID');
     await axios.post(`/api/message/${chatID}`, {
@@ -77,11 +83,14 @@ gel('#send-message-form').addEventListener('submit', async (e) => {
     });
 
     gel('input[name=message]').value = '';
+
     renderMessages(chatID);
   } catch (err) {
     console.log(err.response);
   }
-});
+};
+
+gel('#send-message-form').addEventListener('submit', sendMessage);
 
 setInterval(async () => {
   try {

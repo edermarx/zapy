@@ -1,5 +1,15 @@
+:root {
+  --darker-orange: #edb88b;
+  --orange: #FCD9C2;
+  --white: rgb(246, 250, 232);
+  --black: rgb(50, 50, 50);
+}
+
 body, html {
   margin: 0;
+  font-family: "Kalam", sans-serif;
+  color: var(--black);
+  font-weight: 400 !important;
 }
 
 .users-container {
@@ -9,7 +19,7 @@ body, html {
   width: 25%;
   height: 100vh;
   left: 0;
-  background-color: #777;
+  background-color: var(--white);
 }
 
 .users-container .user {
@@ -18,18 +28,18 @@ body, html {
   display: flex;
   /* justify-content: space-around; */
   align-items: center;
-  background-color: #666;
+  background-color: var(--orange);
 }
 
 .users-container .user img {
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   margin: 0 40px;
 }
 
 .users-container .add-contact {
   width: 100%;
-  background-color: #444;
+  background-color: var(--darker-orange);
   text-align: center;
 }
 
@@ -61,7 +71,7 @@ body, html {
   width: 100%;
   display: flex;
   flex-direction: column;
-  background-color: #555;
+  background-color: var(--orange);
 }
 
 .users-container #contacts .contact {
@@ -72,12 +82,12 @@ body, html {
 }
 
 .users-container #contacts .contact:hover {
-  background-color: #444;
+  background-color: var(--darker-orange);
 }
 
 .users-container #contacts .contact img {
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   margin: 0 40px;
 }
 
@@ -88,13 +98,15 @@ body, html {
   width: 75%;
   height: 100vh;
   right: 0;
-  background-color: #888;
+  background-color: var(--white);
+  /* aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa */
+  border-left: 1px solid rgb(185, 168, 168) !important;
 }
 
 .msgs-container .header {
   width: 100%;
   height: 10%;
-  background-color: #555;
+  background-color: var(--orange);
 }
 
 .msgs-container .header .current-contact {
@@ -106,8 +118,8 @@ body, html {
 }
 
 .msgs-container .header .current-contact img { 
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   margin: 0 40px;
 }
 
@@ -121,16 +133,37 @@ body, html {
 }
 
 .msgs-container #messages .message {
-  background-color: #666;
-  margin: 7px 5px;
-  border-radius: 20px;
+  background-color: var(--orange);
+  margin: 0px 5px;
+  border-radius: 10px;
 }
 
 .msgs-container #messages .message .message-content {
   margin: 5px;
 }
 
+.msgs-container #messages .message-container  {
+  display: flex;
+  flex-direction: column;
+  margin: 0 5px;
+}
+
+.msgs-container #messages .message-container svg {
+  fill:var(--orange);
+  margin: -5px 0 0 0;
+  align-self: flex-end;
+}
+
+.msgs-container #messages .message-container svg .triangle {
+  fill:var(--orange);
+}
+
 .msgs-container #messages .sender {
+  align-self: flex-start;
+}
+
+.msgs-container #messages .sender svg {
+  transform: scaleX(-1);
   align-self: flex-start;
 }
 
@@ -139,16 +172,18 @@ body, html {
   bottom: 0;
   width: 100%;
   height: 10%;
-  background-color: #555;
+  background-color: var(--orange);
 }
 
 .msgs-container .msgs-send form {
   height: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .msgs-container .msgs-send #new-message {
-  height: 20px;
-  width: 50%;
+  height: 50%;
+  width: 90%;
   border: none;
   margin: 10px;
   border-radius: 3px;
@@ -160,4 +195,9 @@ body, html {
   border-radius: 3px;
   margin: 5px 0;
   height: 20px;
+}
+
+#send-button {
+  width: 40px;
+  height: 40px;
 }

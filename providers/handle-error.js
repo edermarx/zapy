@@ -1,7 +1,7 @@
 module.exports = (err, res, type) => {
   const errorCodes = {
-    'access-denied': 403,
-    'unauthenticated': 401,
+    'access-denied': 403, 
+    'unauthenticated': 401, 
     'missing-data': 400,
     'user-already-exists': 400,
     'passwords-dont-match': 400,
