@@ -14,9 +14,19 @@ const renderMessages = async (chatID) => {
 
   Object.entries(messages).forEach(([key, message]) => {
     messagesDiv.innerHTML += `
-      <p class="message" message-id="${key}">${message.content}</p>
+    <div class="message-container ${message.sender === userID ? 'receiver' : 'sender'}">
+      <div class="message" message-id="${key}" message-sender="${message.sender}">
+        <p class="message-content">${message.content}</p>
+      </div>
+      <svg height="10" width="60">
+        <polygon class="triangle" points="25,0 50,0 60,10" />
+      </svg>  
+    </div>
     `;
   });
+
+  // ============================= //
+  messagesDiv.scrollTop = 10 ** 10;
 };
 
 const renderContacts = async () => {
@@ -28,12 +38,23 @@ const renderContacts = async () => {
 
     Object.values(contacts).forEach((contact) => {
       contactsDiv.innerHTML += `
-      <p class="contact" onclick="renderMessages('${btoa(contact.userID < userID ? `${contact.userID}(*-*)${userID}` : `${userID}(*-*)${contact.userID}`)}')">${contact.username}</p>
+      <div class="contact ${contact.username}" onclick="renderMessages('${btoa(contact.userID < userID ? `${contact.userID}(*-*)${userID}` : `${userID}(*-*)${contact.userID}`)}')">
+        <img src="https://cdn4.iconfinder.com/data/icons/universal-5/605/User-512.png" alt="contact-image">
+        <h4 class="username">${contact.username}</h4>
+      </div>
     `;
+    });
+    contactsDiv.addEventListener('click', (event) => {
+      gel('.current-contact-name').innerHTML = event.target.className.indexOf('contact') === -1 ? event.target.parentElement.querySelector('h4').innerHTML : event.target.querySelector('h4').innerHTML;
+      [...document.querySelectorAll('.contact')].forEach((contact) => {
+        contact.style.backgroundColor = '#FCD9C2';
+      });
+      gel(`.${gel('.current-contact-name').innerHTML}`).style.backgroundColor = '#edb88b';
     });
   } catch (err) {
     console.log(err.response);
   }
+  // ============================= //
 };
 
 gel('#add-contact-form').addEventListener('submit', async (e) => {
@@ -51,9 +72,10 @@ gel('#add-contact-form').addEventListener('submit', async (e) => {
   }
 });
 
-gel('#send-message-form').addEventListener('submit', async (e) => {
+
+const sendMessage = async (e) => {
   try {
-    e.preventDefault();
+    if (e) e.preventDefault();
 
     const chatID = window.localStorage.getItem('chatID');
     await axios.post(`/api/message/${chatID}`, {
@@ -61,11 +83,14 @@ gel('#send-message-form').addEventListener('submit', async (e) => {
     });
 
     gel('input[name=message]').value = '';
+
     renderMessages(chatID);
   } catch (err) {
     console.log(err.response);
   }
-});
+};
+
+gel('#send-message-form').addEventListener('submit', sendMessage);
 
 setInterval(async () => {
   try {
@@ -78,9 +103,7 @@ setInterval(async () => {
       .join('(*-*)').split('(*-*)')
       .filter(id => id !== userID);
 
-    console.log(contactsNotSeen);
-
-    return;
+    // console.log(contactsNotSeen);
 
     Object.entries(response.data).forEach(([hasMessageID, hasChatID]) => {
       if (hasChatID === chatID) hasMessageIDs.push(hasMessageID);

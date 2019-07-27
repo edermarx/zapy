@@ -7,13 +7,21 @@
     <link href="/views/register/register.css" rel="stylesheet">
   </head>
   <body>
-    <form id="register-form">
-      <input type="text" name="username" placeholder="Usuário" required>
-      <input type="text" name="alias" placeholder="Apelido" required>
-      <input type="password" name="password" placeholder="Senha" required>
-      <input type="password" name="password2" placeholder="Confirmação de senha" required>
-      <input type="submit" value="Registrar">
-    </form>
+    <div class="card-wrapper">
+      <div class="card">
+        <form action="POST" id="register-form" class="form">
+          <h2>Cadastrar</h2>
+          <div class="input-container">
+            <input type="text" name="username" id="name" placeholder="Usuário" required>
+            <input type="text" name="alias" id="nickname" placeholder="Apelido" required>
+            <input type="password" name="password" id="password" placeholder="Senha" required>
+            <input type="password" name="password2" id="password-confirm" placeholder="Confirmação de Senha" required>
+          </div>
+          <input type="submit" value="Cadastrar" class="submit-button">
+        </form>
+        <a href="/login">Já tem uma conta?</a>
+      </div>
+    </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
     <script src="/views/register/register.js"></script>
   </body>
