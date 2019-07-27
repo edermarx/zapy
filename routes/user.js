@@ -25,7 +25,7 @@ const canAccess = (req, res) => new Promise(async (resolve, reject) => {
     if (
       req.params.id !== req.session.userID
       && !user.val().admin
-      && process.env.ENV_MODE === 'production'
+      && process.env.ENV_MODE !== 'development'
     ) {
       handleError(null, res, 'access-denied');
       resolve(false);
