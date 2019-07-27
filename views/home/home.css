@@ -1,0 +1,203 @@
+:root {
+  --darker-orange: #edb88b;
+  --orange: #FCD9C2;
+  --white: rgb(246, 250, 232);
+  --black: rgb(50, 50, 50);
+}
+
+body, html {
+  margin: 0;
+  font-family: "Kalam", sans-serif;
+  color: var(--black);
+  font-weight: 400 !important;
+}
+
+.users-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  width: 25%;
+  height: 100vh;
+  left: 0;
+  background-color: var(--white);
+}
+
+.users-container .user {
+  width: 100%;
+  height: 10%;
+  display: flex;
+  /* justify-content: space-around; */
+  align-items: center;
+  background-color: var(--orange);
+}
+
+.users-container .user img {
+  width: 40px;
+  height: 40px;
+  margin: 0 40px;
+}
+
+.users-container .add-contact {
+  width: 100%;
+  background-color: var(--darker-orange);
+  text-align: center;
+}
+
+.users-container .add-contact h4 {
+  margin-bottom: 0;
+}
+
+.users-container .add-contact form {
+  display: flex;
+  align-items: center;
+}
+
+.users-container .add-contact input {
+  height: 20px;
+  border: none;
+  margin: 10px;
+  border-radius: 3px;
+  padding: 3px;
+}
+
+.users-container .add-contact .add-contact-submit {
+  border: none;
+  border-radius: 3px;
+  margin: 5px 0;
+  height: 20px;
+}
+
+.users-container #contacts {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--orange);
+}
+
+.users-container #contacts .contact {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  cursor: pointer;
+}
+
+.users-container #contacts .contact:hover {
+  background-color: var(--darker-orange);
+}
+
+.users-container #contacts .contact img {
+  width: 40px;
+  height: 40px;
+  margin: 0 40px;
+}
+
+.msgs-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  width: 75%;
+  height: 100vh;
+  right: 0;
+  background-color: var(--white);
+  /* aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa */
+  border-left: 1px solid rgb(185, 168, 168) !important;
+}
+
+.msgs-container .header {
+  width: 100%;
+  height: 10%;
+  background-color: var(--orange);
+}
+
+.msgs-container .header .current-contact {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.msgs-container .header .current-contact img { 
+  width: 40px;
+  height: 40px;
+  margin: 0 40px;
+}
+
+.msgs-container #messages {
+  height: 80%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  flex-direction: column;
+  overflow: auto;
+}
+
+.msgs-container #messages .message {
+  background-color: var(--orange);
+  margin: 0px 5px;
+  border-radius: 10px;
+}
+
+.msgs-container #messages .message .message-content {
+  margin: 5px;
+}
+
+.msgs-container #messages .message-container  {
+  display: flex;
+  flex-direction: column;
+  margin: 0 5px;
+}
+
+.msgs-container #messages .message-container svg {
+  fill:var(--orange);
+  margin: -5px 0 0 0;
+  align-self: flex-end;
+}
+
+.msgs-container #messages .message-container svg .triangle {
+  fill:var(--orange);
+}
+
+.msgs-container #messages .sender {
+  align-self: flex-start;
+}
+
+.msgs-container #messages .sender svg {
+  transform: scaleX(-1);
+  align-self: flex-start;
+}
+
+.msgs-container .msgs-send {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 10%;
+  background-color: var(--orange);
+}
+
+.msgs-container .msgs-send form {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.msgs-container .msgs-send #new-message {
+  height: 50%;
+  width: 90%;
+  border: none;
+  margin: 10px;
+  border-radius: 3px;
+  padding: 3px;
+}
+
+.msgs-container .msgs-send .send-message {
+  border: none;
+  border-radius: 3px;
+  margin: 5px 0;
+  height: 20px;
+}
+
+#send-button {
+  width: 40px;
+  height: 40px;
+}

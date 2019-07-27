@@ -7,11 +7,19 @@
     <link href="/views/login/login.css" rel="stylesheet">
   </head>
   <body>
-    <form id="login-form">
-      <input type="text" name="username" placeholder="Usuário" required>
-      <input type="password" name="password" placeholder="Senha" required>
-      <input type="submit" value="Entrar">
-    </form>
+    <div class="card-wrapper">
+      <div class="card">
+        <form action="POST" class="form" id="login-form">
+          <h2>Login</h2>
+          <div class="input-container">
+            <input type="text" name="username" id="name" placeholder="Name" required>
+            <input type="password" name="password" id="password" placeholder="Password" required>
+          </div>
+          <input type="submit" value="Login" class="submit-button">
+        </form>
+        <a href="/cadastro">Não tem uma conta?</a>
+      </div>
+    </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
     <script src="/views/login/login.js"></script>
   </body>
