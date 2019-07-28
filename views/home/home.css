@@ -9,7 +9,7 @@ body, html {
   margin: 0;
   font-family: "Kalam", sans-serif;
   color: var(--black);
-  font-weight: 400 !important;
+  font-weight: 300;
 }
 
 .users-container {
@@ -82,7 +82,7 @@ body, html {
 }
 
 .users-container #contacts .contact:hover {
-  background-color: var(--darker-orange);
+  background-color: var(--darker-orange) !important;
 }
 
 .users-container #contacts .contact img {
@@ -140,6 +140,10 @@ body, html {
 
 .msgs-container #messages .message .message-content {
   margin: 5px;
+}
+
+.message-content {
+  font-size: 1.1rem;
 }
 
 .msgs-container #messages .message-container  {
@@ -200,4 +204,17 @@ body, html {
 #send-button {
   width: 40px;
   height: 40px;
+}
+
+.username, .current-contact {
+  font-family: 'Itim', cursive;
+  font-weight: 400 !important;
+  font-size: 1.1rem;
+}
+
+#add-contato-h4 {
+  margin-top: 10px;
+  font-family: 'Itim', cursive;
+  font-weight: 400 !important;
+  font-size: 1.2rem;
 }

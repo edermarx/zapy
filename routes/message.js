@@ -64,17 +64,18 @@ app.post('/:chatID', async (req, res) => {
 
     conversation.filter(userInvolved => userInvolved !== req.session.userID)
       .forEach(async (otherUser) => {
-        const username = (await Users.child(req.session.userID).child('username').once('value')).val();
+        const user = (await Users.child(req.session.userID).once('value')).val();
         const checkContact = (await Users.child(otherUser)
           .child('contacts')
           .orderByChild('username')
-          .equalTo(username)
+          .equalTo(user.username)
           .once('value')).val();
 
         if (checkContact) return;
 
         await Users.child(otherUser).child('contacts').push({
-          username,
+          username: user.username,
+          alias: user.alias,
           userID: req.session.userID,
         });
       });

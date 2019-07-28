@@ -152,7 +152,7 @@ app.get('/', async (req, res) => {
 app.get('/:id', async (req, res) => {
   const access = await canAccess(req, res);
   if (!access) return;
-  
+
   try {
     const user = await Users.child(req.params.id).once('value');
     res.send(user);

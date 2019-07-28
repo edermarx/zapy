@@ -38,12 +38,13 @@ const renderContacts = async () => {
 
     Object.values(contacts).forEach((contact) => {
       contactsDiv.innerHTML += `
-      <div class="contact ${contact.username}" onclick="renderMessages('${btoa(contact.userID < userID ? `${contact.userID}(*-*)${userID}` : `${userID}(*-*)${contact.userID}`)}')">
+      <div class="contact ${contact.alias}" onclick="renderMessages('${btoa(contact.userID < userID ? `${contact.userID}(*-*)${userID}` : `${userID}(*-*)${contact.userID}`)}')">
         <img src="https://cdn4.iconfinder.com/data/icons/universal-5/605/User-512.png" alt="contact-image">
-        <h4 class="username">${contact.username}</h4>
+        <h4 class="username">${contact.alias}</h4>
       </div>
     `;
     });
+
     contactsDiv.addEventListener('click', (event) => {
       gel('.current-contact-name').innerHTML = event.target.className.indexOf('contact') === -1 ? event.target.parentElement.querySelector('h4').innerHTML : event.target.querySelector('h4').innerHTML;
       [...document.querySelectorAll('.contact')].forEach((contact) => {
@@ -91,6 +92,11 @@ const sendMessage = async (e) => {
 };
 
 gel('#send-message-form').addEventListener('submit', sendMessage);
+
+(async () => {
+  const user = (await axios.get(`/api/user/${userID}`)).data;
+  gel('#my-username').innerHTML = user.alias;
+})();
 
 setInterval(async () => {
   try {

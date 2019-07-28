@@ -5,16 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Kalam:300,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Itim:400&display=swap" rel="stylesheet">
     <link href="/views/home/home.css" rel="stylesheet">
   </head>
   <body>
     <section class="users-container">
       <div class="user" id="profile">
         <img src="https://cdn4.iconfinder.com/data/icons/universal-5/605/User-512.png" alt="user-image">
-        <h4 class="username">Edgar</h4>
+        <h4 class="username" id="my-username"></h4>
       </div>
       <div class="add-contact">
-        <h4>Adicionar Contato</h4>
+        <h4 id="add-contato-h4">Adicionar Contato</h4>
         <form id="add-contact-form">
           <input type="text" name="contact" id="new-contact" placeholder="Contato">
           <input type="submit" value="Adicionar" class="submit">

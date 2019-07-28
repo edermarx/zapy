@@ -31,14 +31,15 @@ module.exports = (Users, canAccess) => {
       const access = await canAccess(req, res);
       if (!access) return;
 
-      const users = await Users.orderByChild('username')
+      const user = (await Users.orderByChild('username')
         .equalTo(req.body.contact)
-        .once('value');
+        .once('value')).val();
 
-      if (!users.val()) {
+      if (!user) {
         handleErrors(null, res, 'user-not-found');
         return;
       }
+      const [userID, contactUser] = Object.entries(user)[0];
 
       const checkUser = await Users.child(req.params.id)
         .child('contacts')
@@ -52,8 +53,9 @@ module.exports = (Users, canAccess) => {
       }
 
       await Users.child(req.params.id).child('contacts').push({
-        username: req.body.contact,
-        userID: Object.keys(users.val())[0],
+        username: contactUser.username,
+        alias: contactUser.alias,
+        userID,
       });
 
       res.send('ok');
