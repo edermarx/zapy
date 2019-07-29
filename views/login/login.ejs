@@ -4,23 +4,27 @@
     <title>Login</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="../static/toasty/toasty.min.css">
     <link href="/views/login/login.css" rel="stylesheet">
   </head>
   <body>
     <div class="card-wrapper">
       <div class="card">
-        <form action="POST" class="form" id="login-form">
+        <form action="POST" class="form" id="login-form" autocomplete="off">
           <h2>Login</h2>
           <div class="input-container">
-            <input type="text" name="username" id="name" placeholder="Name" required>
-            <input type="password" name="password" id="password" placeholder="Password" required>
+            <input type="text" name="username" id="name" placeholder="Name" required autocomplete="off">
+            <input type="password" name="password" id="password" placeholder="Password" required autocomplete="off">
           </div>
-          <input type="submit" value="Login" class="submit-button">
+          <input type="submit" value="Entrar" class="submit-button">
         </form>
-        <a href="/cadastro">Não tem uma conta?</a>
+        <div class="href">
+          <a href="/cadastro">Não tem uma conta?</a>
+        </div>
       </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+    <script src="../static/toasty/toasty.min.js"></script>
     <script src="/views/login/login.js"></script>
   </body>
 </html>
