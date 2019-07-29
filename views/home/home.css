@@ -160,7 +160,7 @@ body, html {
 
 .msgs-container #messages {
   padding-top: 5px;
-  height: 80%;
+  height: 79%;
   display: flex;
   align-items: flex-end;
   justify-content: flex-start;
@@ -168,9 +168,13 @@ body, html {
   overflow: auto;
 }
 
+.msgs-container #messages .message-container {
+  min-height: 46px !important;
+}
+
 .msgs-container #messages .message {
   background-color: var(--orange);
-  margin: 0px 5px;
+  margin: 0px 5px !important;
   border-radius: 10px;
   display: flex;
   align-items: center;

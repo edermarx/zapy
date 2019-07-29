@@ -51,7 +51,7 @@
 
 .card .submit-button {
   background-color: #fab283;
-  background-image: linear-gradient(to bottom, #fab283, #EFBC9B);
+  background-image: linear-gradient(to bottom, #fca56b, #fca56b);
   border-radius: 5px;
   border: none;
   font-family: Arial;
@@ -63,6 +63,10 @@
   margin: 8px 0 0 0;
   box-shadow: 0px 0px 0px #EFBC9B;
   cursor: pointer;
+}
+
+.card .submit-button:hover {
+  background-image: linear-gradient(to top, #ffb07c, #ffb07c);  
 }
 
 .card a {
@@ -80,3 +84,4 @@
 .href {
   padding-top: 5px !important;
 }
+
