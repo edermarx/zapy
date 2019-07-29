@@ -71,7 +71,7 @@ const renderContacts = async () => {
   // ============================= //
 };
 
-gel('#add-contact-button').addEventListener('click', async (e) => {
+const addContact = async (e) => {
   try {
     e.preventDefault();
 
@@ -85,8 +85,9 @@ gel('#add-contact-button').addEventListener('click', async (e) => {
     console.log(err.response);
     if (err.response.data === 'user-not-found') toasty.error('Usuário não encontrado');
   }
-});
+};
 
+gel('#add-contact-button').addEventListener('click', addContact);
 
 const sendMessage = async (e) => {
   try {
@@ -107,6 +108,8 @@ const sendMessage = async (e) => {
 };
 
 gel('#send-message-form').addEventListener('submit', sendMessage);
+
+gel('#add-contact-form').addEventListener('submit', addContact);
 
 gel('.logout').addEventListener('click', async () => {
   await axios.post('/api/user/logout');
