@@ -1,8 +1,11 @@
 const gel = element => document.querySelector(element);
 
+const toasty = new Toasty({ transition: 'pinItUp' });
+
 const userID = window.localStorage.getItem('userID');
 
 const renderMessages = async (chatID) => {
+
   window.localStorage.setItem('chatID', chatID);
 
   const messages = (await axios.get(`/api/message/${chatID}`)).data;
@@ -13,10 +16,19 @@ const renderMessages = async (chatID) => {
   if (!messages) return;
 
   Object.entries(messages).forEach(([key, message]) => {
+    const date = new Date(message.timestamp);
+    const formatHour = (n) => {
+      if (n < 10) {
+        return `0${n}`;
+      }
+      return n;
+    };
+
     messagesDiv.innerHTML += `
     <div class="message-container ${message.sender === userID ? 'receiver' : 'sender'}">
       <div class="message" message-id="${key}" message-sender="${message.sender}">
         <p class="message-content">${message.content}</p>
+        <a class="hour">${formatHour(date.getHours())}:${formatHour(date.getMinutes())}</a>
       </div>
       <svg height="10" width="60">
         <polygon class="triangle" points="25,0 50,0 60,10" />
@@ -51,6 +63,7 @@ const renderContacts = async () => {
         contact.style.backgroundColor = '#FCD9C2';
       });
       gel(`.${gel('.current-contact-name').innerHTML}`).style.backgroundColor = '#edb88b';
+      gel('#new-message').focus();
     });
   } catch (err) {
     console.log(err.response);
@@ -58,7 +71,7 @@ const renderContacts = async () => {
   // ============================= //
 };
 
-gel('#add-contact-form').addEventListener('submit', async (e) => {
+gel('#add-contact-button').addEventListener('click', async (e) => {
   try {
     e.preventDefault();
 
@@ -70,6 +83,7 @@ gel('#add-contact-form').addEventListener('submit', async (e) => {
     renderContacts();
   } catch (err) {
     console.log(err.response);
+    if (err.response.data === 'user-not-found') toasty.error('Usuário não encontrado');
   }
 });
 
@@ -85,6 +99,7 @@ const sendMessage = async (e) => {
 
     gel('input[name=message]').value = '';
 
+
     renderMessages(chatID);
   } catch (err) {
     console.log(err.response);
@@ -92,6 +107,10 @@ const sendMessage = async (e) => {
 };
 
 gel('#send-message-form').addEventListener('submit', sendMessage);
+
+gel('.logout').addEventListener('click', async () => {
+  await axios.post('/api/user/logout');
+});
 
 (async () => {
   const user = (await axios.get(`/api/user/${userID}`)).data;

@@ -34,6 +34,7 @@ app.use(bodyParser.json());
 
 // serving static files
 app.use('/views', express.static(path.join(__dirname, 'views')));
+app.use('/static', express.static(path.join(__dirname, 'static')));
 
 // ==================== USER SESSION ==================== //
 

@@ -1,5 +1,7 @@
 const gel = element => document.querySelector(element);
 
+const toasty = new Toasty();
+
 gel('#register-form').addEventListener('submit', async (e) => {
   try {
     e.preventDefault();
@@ -15,5 +17,7 @@ gel('#register-form').addEventListener('submit', async (e) => {
     window.location.replace('/');
   } catch (err) {
     console.log(err.response.data);
+    if (err.response.data === 'user-already-exists') toasty.error('Esse usuátio já existe');
+    if (err.response.data === 'passwords-dont-match') toasty.error('As senhas devem ser iguais');
   }
 });

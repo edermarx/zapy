@@ -115,6 +115,13 @@ app.post('/login', async (req, res) => {
   }
 });
 
+// -------------------- LOGOUT -------------------- //
+
+app.post('/logout', (req, res) => {
+  req.session.userID = '';
+  res.send('ok');
+});
+
 // -------------------- ACCESS CONTROL -------------------- //
 
 app.use((req, res, next) => {

@@ -1,5 +1,7 @@
 const gel = element => document.querySelector(element);
 
+const toasty = new Toasty();
+
 gel('#login-form').addEventListener('submit', async (e) => {
   try {
     e.preventDefault();
@@ -13,5 +15,6 @@ gel('#login-form').addEventListener('submit', async (e) => {
     window.location.replace('/');
   } catch (err) {
     console.log(err.response.data);
+    if (err.response.data === 'wrong-password') toasty.error('Senha Incorreta');
   }
 });
